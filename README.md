@@ -2,7 +2,7 @@
 
 ### Setup Raspberry Pi
 
-Raspberry Pi provisioning process will disable `pi` user's default password. The `roles/secure_device/files/authorized_keys` file will be copied into `pi` user's `.ssh` directory. Please update the `authorized_keys` file with your public key before provisioning or you will loose access to the device.
+Raspberry Pi provisioning process will disable `pi` user's default password. The `roles/secure_device/files/authorized_keys` file will be copied into `pi` user's `.ssh` directory. Please update the `authorized_keys` file with your public key before provisioning or you will lose access to the device.
 
 #### Tested on
 
