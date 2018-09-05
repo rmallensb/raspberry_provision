@@ -1,0 +1,12 @@
+---
+- name: Add pcscd group
+  group:
+    name: pcscd
+  become: yes
+
+- name: Add user
+  user:
+    name: "{{ USER }}"
+    append: yes
+    groups: dialout,pcscd,plugdev,input,gpio
+  become: yes

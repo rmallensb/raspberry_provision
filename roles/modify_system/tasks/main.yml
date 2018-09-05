@@ -1,0 +1,14 @@
+---
+- name: Search for dwc speed in /boot/cmdline.txt
+  find:
+    path: /boot/cmdline.txt
+    pattern: 'dwc_otg.speed'
+  register: result
+
+- name: If dwc speed doesn't exist, add it
+  when: result is failed
+  replace:
+    path: /boot/cmdline.txt
+    regexp: '^'
+    replace: 'dwc_otg.speed=1 '
+  become: yes

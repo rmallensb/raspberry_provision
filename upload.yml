@@ -1,0 +1,10 @@
+---
+- name: "Upload Directory to RaspberryPi"
+  remote_user: pi
+  hosts: all
+  vars:
+    - SOURCE_PROJ: 'yubihsm-product-tests'
+    - USER: 'pi'
+    - HOME_DIR: '/home/{{ USER }}'
+  roles:
+    - upload

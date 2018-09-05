@@ -1,0 +1,4 @@
+# Place python requirements here
+pyusb
+hexdump
+RPi.GPIO

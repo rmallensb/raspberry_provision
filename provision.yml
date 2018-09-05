@@ -1,0 +1,30 @@
+---
+- name: "Provision RaspberryPi"
+  remote_user: pi
+  hosts: all
+  vars:
+    - USER: 'pi'
+    - HOME_DIR: '/home/{{ USER }}'
+    - DEVICE: 'yubihsm'
+    - NETWORK_CONF:
+        hostname: "my_pi" #"{{ lookup('env', 'USER') | replace('.', '_') }}{{ 100 | random }}{{ DEVICE }}"
+        allow_interface: 'eth0'
+        deny_interface: 'wlan0'
+    - NET_PROVISION_LOCK: '/etc/ansible.network.provisioned'
+  roles:
+    - secure_device
+    - add_user
+    - dependencies
+    - python_deps
+    - modify_system
+    - setup_network
+
+  post_tasks:
+    - name: You can now ssh into the Pi
+      debug:
+        msg: "*** Please ssh into host using 'ssh pi@{{ hostname }}.local'"
+
+    - name: Remove password and reboot Pi
+      shell: "passwd -d {{ USER}} && /sbin/shutdown -r 1 &"
+      become: yes
+      ignore_errors: True

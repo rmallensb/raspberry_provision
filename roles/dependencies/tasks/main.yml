@@ -1,0 +1,22 @@
+---
+- name: Install Dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    #upgrade: dist
+  become: yes
+  with_items:
+    - python-setuptools
+    - python-usb
+    - libffi-dev
+    - python-m2crypto
+    - python-pip
+    - python-dev
+    - libusb-1.0-0-dev
+    - libudev-dev
+    - mingetty
+    - libssl-dev
+    - git
+    - tmux
+    - avahi-daemon

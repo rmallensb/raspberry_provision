@@ -1,0 +1,46 @@
+---
+- name: If hostname was not given, use default
+  when: hostname is not defined
+  set_fact:
+    hostname: "{{ NETWORK_CONF.hostname }}"
+
+- name: Check if network provision lock exists
+  stat:
+    path: "{{ NET_PROVISION_LOCK }}"
+  register: sym
+
+- name: If network provision lock exists, end play
+  when: sym.stat.islnk is defined
+  meta: end_play
+
+- name: 'If ssid and psk are given, configure wifi'
+  when:
+    - ssid is defined
+    - psk is defined
+  template:
+    src: wpa_supplicant.conf.j2
+    dest: '/etc/wpa_supplicant/wpa_supplicant.conf'
+    mode: '0600'
+  become: yes
+
+- name: Upload network files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0644'
+  become: yes
+  with_items:
+    - { src: 'avahi-daemon.conf.j2', dest: '/etc/avahi/avahi-daemon.conf' }
+    - { src: 'hosts.j2', dest: '/etc/hosts' }
+    - { src: 'hostname.j2', dest: '/etc/hostname' }
+
+- name: Set the hostname
+  hostname:
+    name: "{{ hostname }}"
+  become: yes
+
+- name: Add network provision lock
+  file:
+    path: "{{ NET_PROVISION_LOCK }}"
+    state: touch
+  become: yes

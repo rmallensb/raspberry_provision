@@ -1,0 +1,12 @@
+---
+- name: Create .ssh directory
+  file:
+    path: "{{ HOME_DIR }}/.ssh"
+    state: directory
+    mode: '700'
+
+- name: Add authorized_keys to .ssh directory
+  copy:
+    src: authorized_keys
+    dest: "{{ HOME_DIR }}/.ssh/authorized_keys"
+    mode: '600'

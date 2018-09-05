@@ -1,0 +1,18 @@
+---
+- name: Clean environment
+  file:
+    path: "{{ SOURCE_PROJ }}"
+    state: absent
+  become: yes
+
+- name: Upload repo
+  synchronize:
+    src: "{{ playbook_dir }}/"
+    dest: "{{ SOURCE_PROJ }}"
+
+- name: Set ownership of repo to user
+  file:
+    path: "{{ HOME_DIR }}/{{ SOURCE_PROJ }}"
+    recurse: yes
+    group: "{{ USER }}"
+  become: yes

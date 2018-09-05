@@ -1,0 +1,16 @@
+---
+- name: Upgrade pip setuptools
+  pip:
+    name: pip setuptools
+    state: latest
+  become: yes
+
+- name: Add requirements.txt
+  copy:
+    src: requirements.txt
+    dest: /tmp/requirements.txt
+
+- name: Pip install requirements
+  pip:
+    requirements: /tmp/requirements.txt
+  become: yes
