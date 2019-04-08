@@ -1,7 +1,7 @@
 ---
 - name: Upgrade pip setuptools
   pip:
-    name: pip setuptools
+    name: setuptools
     state: latest
   become: yes
 
